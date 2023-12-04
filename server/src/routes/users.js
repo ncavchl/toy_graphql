@@ -28,4 +28,3 @@ const usersRoute = [
 ];
 
 export default usersRoute;
-

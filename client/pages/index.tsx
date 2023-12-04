@@ -1,14 +1,19 @@
-import type { NextPage } from "next";
 import MsgList from "../components/MsgList";
+import fetcher from "../fetcher";
 
-const app: NextPage = () => {
-  return (
-    <>
-      <h1>SIMPLE SNS</h1>
+const app = ({ smsgs, users }) => (
+  <>
+    <h1>SIMPLE SNS</h1>
+    <MsgList smsgs={smsgs} users={users} />
+  </>
+);
 
-      <MsgList />
-    </>
-  );
+export const getServerSideProps = async () => {
+  const smsgs = await fetcher("get", "/messages");
+  const users = await fetcher("get", "/users");
+  return {
+    props: { smsgs, users },
+  };
 };
 
 export default app;
