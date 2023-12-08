@@ -7,8 +7,9 @@ import db from "./dbController.js";
 
 const readDB = () => {
   db.read();
+  console.log("dd::::::::", db.data);
   db.data = db.data || { messages: [], users: [] };
-  return db.data();
+  return db.data;
 };
 
 const server = new ApolloServer({
