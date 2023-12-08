@@ -1,16 +1,13 @@
 // nodemon.json - 노드몬이 실행될 때 어떤 걸 변경 감지사항 삼아야할지, 말아야 할지 + 환경 정보 세팅
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-
-import cors from "cors";
-
 import resolvers from "./resolvers/index.js";
 import schema from "./schema/index.js";
 import { readDB } from "./dbController.js";
 
 const server = new ApolloServer({
   typeDefs: schema,
-  resolvers: resolvers, // route에서 하던 역할
+  resolvers,
   context: {
     db: {
       messages: readDB("messages"),
@@ -20,9 +17,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
-
 await server.start();
-
 server.applyMiddleware({
   app,
   path: "/graphql",
@@ -32,6 +27,5 @@ server.applyMiddleware({
   },
 });
 
-app.listen(8000, () => {
-  console.log("server listening on 8000...");
-});
+await app.listen({ port: 8000 });
+console.log("server listening on 8000...");
